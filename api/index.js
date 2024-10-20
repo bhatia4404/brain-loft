@@ -1,12 +1,12 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const cors = require("cors");
-const genAI = new GoogleGenerativeAI("<yourAPIKey>");
+const genAI = new GoogleGenerativeAI("AIzaSyDE9qEqKzQwCMWzsr14_vgMcd5EmJN8RQg");
 
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const answer = async function (text) {
   try {
     let textRecieved = `${text}`;
-    console.log(textRecieved);
+    // console.log(textRecieved);
     const wordCount = text.split(" ").length;
 
     if (wordCount < 2) {
@@ -46,7 +46,7 @@ app.use(cors());
 app.post("/explain", async function (req, res) {
   const { text } = req.body;
   const ans = await answer(text);
-  console.log(ans);
+  // console.log(ans);
   return res.json(ans);
 });
 app.listen(3000, () => console.log("Listening at 3000"));
