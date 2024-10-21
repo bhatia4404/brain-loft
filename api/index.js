@@ -4,50 +4,127 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const cors = require("cors");
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-const answer = async function (text) {
-  try {
-    let textRecieved = `${text}`;
-    // console.log(textRecieved);
-    const wordCount = text.split(" ").length;
-
-    if (wordCount < 2) {
-      const prompt = `meaning of ${textRecieved} in less than 10 words (easy to understand language)`;
-      const result = await model.generateContent(prompt);
-      return {
-        text,
-        explanation: result.response.text(),
-      };
-    } else if (wordCount < 20) {
-      const prompt = `Explain "${text}" in less than 20 words (easy to understand language)`;
-      const result = await model.generateContent(prompt);
-      return {
-        text,
-        explanation: result.response.text(),
-      };
-    } else {
-      const prompt = `Summarise this text "${text}" a(approximately 40 words)`;
-      const result = await model.generateContent(prompt);
-      return {
-        text,
-        explanation: result.response.text(),
-      };
-    }
-  } catch (e) {
+async function translate(text) {
+  if (text.length < 1) {
     return {
-      error: e,
+      error: {
+        err_msg: "Select a word with atleast one letter.",
+      },
     };
   }
-};
-
+  const prompt = `translate the word "${text}" to hindi in format "<given word> in <given language> is <translation>"`;
+  const res = await model.generateContent(prompt);
+  return res.response.text();
+}
+async function define(text) {
+  if (text.length < 1) {
+    return {
+      error: {
+        err_msg: "Select a word with atleast one letter.",
+      },
+    };
+  }
+  const prompt = `define "${text} in 20 words."`;
+  const res = await model.generateContent(prompt);
+  return res.response.text();
+}
+async function explain(text) {
+  if (text.length < 1) {
+    return {
+      error: {
+        err_msg: "Select a word with atleast one letter.",
+      },
+    };
+  }
+  const prompt = `explain "${text}" in detail (40-50 words)(if you don't find any context explain in any context you like)`;
+  const res = await model.generateContent(prompt);
+  return res.response.text();
+}
+async function summarise(text) {
+  if (text.length < 1) {
+    return {
+      error: {
+        err_msg: "Select a word with atleast one letter.",
+      },
+    };
+  }
+  if (text.split(" ").length < 80) {
+    return explain(text);
+  }
+  const prompt = `summarise "${text} in 50 words."`;
+  const res = await model.generateContent(prompt);
+  return res.response.text();
+}
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+app.post("/translate", async function (req, res) {
+  try {
+    const { text } = req.body;
+    const translation = await translate(text);
+    if (translation.error) {
+      return res.json(translation);
+    }
+    return res.json({
+      text,
+      translation,
+    });
+  } catch (e) {
+    return res.json({
+      error: {
+        err_msg: "Something went wrong!",
+      },
+    });
+  }
+});
+app.post("/define", async function (req, res) {
+  try {
+    const { text } = req.body;
+    const definition = await define(text);
+    return res.json({
+      text,
+      definition,
+    });
+  } catch (e) {
+    return res.json({
+      error: {
+        err_msg: "Something went wrong!",
+      },
+    });
+  }
+});
 app.post("/explain", async function (req, res) {
-  const { text } = req.body;
-  const ans = await answer(text);
-  // console.log(ans);
-  return res.json(ans);
+  try {
+    const { text } = req.body;
+    const explanation = await explain(text);
+    return res.json({
+      text,
+      explanation,
+    });
+  } catch (e) {
+    return res.json({
+      error: {
+        err_msg: "Something went wrong!",
+      },
+    });
+  }
+});
+app.post("/summarise", async function (req, res) {
+  try {
+    const { text } = req.body;
+    const summary = await summarise(text);
+    return res.json({
+      text,
+      summary,
+    });
+  } catch (e) {
+    return res.json({
+      error: {
+        err_msg: "Something went wrong!",
+      },
+    });
+  }
 });
 app.listen(3000, () => console.log("Listening at 3000"));
