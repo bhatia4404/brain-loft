@@ -14,8 +14,8 @@
   ],
   "permissions": ["tabs", "bookmarks", "storage", "identity"],
   "icons": {
-    "16": "brain.png",
-    "48": "brain.png",
-    "128": "brain.png"
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
   }
 }

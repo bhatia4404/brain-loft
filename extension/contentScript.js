@@ -19,34 +19,37 @@ let positionX,
   translateBtn,
   defineBtn,
   explainBtn,
-  summariseBtn;
+  summariseBtn,
+  isCurrentlementBrain = false;
 window.onload = () => {
   // console.log("WINDOW LOADED");
   const body = document.querySelector("body");
   const buttonHTML = `
-      <div id="brain" style='display:none;padding:10px;box-shadow: -2px 2px 4px #E3DAC9;width:140px;background-color:#F5F5DC;border-radius:10%' >
-      <div class="brain_buttons" style="display:grid;grid-template-columns:70px 70px;gap:5px">
+      <div id="brain" style='display:none;padding:10px;box-shadow: -2px 2px 4px #E3DAC9;width:200px;background-color:#F5F5DC;border-radius:10%' >
+      <div>
+    
+      <div class="brain_buttons" style="display:grid;grid-template-columns:85px 85px;gap:5px;justify-items:center">
       
-          <button class="button-translate" style="display: flex;cursor:pointer;
+          <button class="button-translate" style="display: flex;cursor:pointer;width:100%;
             flex-direction: column;align-items: center;padding: 6px 14px;font-family: -apple-system,BlinkMacSystemFont, 'Roboto', sans-serif;border-radius: 6px;border: none;color: #fff;
             background: linear-gradient(180deg, #4B91F7 0%, #367AF6 100%);
              background-origin: border-box;
             box-shadow: 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2);
             user-select: none;-webkit-user-select: none;touch-action: manipulation;">Translate</button>
-          <button class="button-define" role="button" style="display: flex;cursor:pointer;
+          <button class="button-define" role="button" style="width:100%;display: flex;cursor:pointer;
             flex-direction: column;align-items: center;padding: 6px 14px;font-family: -apple-system,BlinkMacSystemFont, 'Roboto', sans-serif;border-radius: 6px;border: none;color: #fff;
             background: #2ea44f;
              background-origin: border-box;
             box-shadow: 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2);
             user-select: none;-webkit-user-select: none;touch-action: manipulation;">Define</button>        
         
-          <button class="button-explain" role="button" style="display: flex;cursor:pointer;
+          <button class="button-explain" role="button" style="width:100%;display: flex;cursor:pointer;
             flex-direction: column;align-items: center;padding: 6px 14px;font-family: -apple-system,BlinkMacSystemFont, 'Roboto', sans-serif;border-radius: 6px;border: none;color: #fff;
             background: #FF4742;
              background-origin: border-box;
             box-shadow: 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2);
             user-select: none;-webkit-user-select: none;touch-action: manipulation;">Explain</button>
-          <button class="button-summarise" role="button" style="display: flex;cursor:pointer;
+          <button class="button-summarise" role="button" style="width:100%;display: flex;cursor:pointer;
             flex-direction: column;align-items: center;padding: 6px 14px;font-family: -apple-system,BlinkMacSystemFont, 'Roboto', sans-serif;border-radius: 6px;border: none;color: #fff;
             background: rgb(251,188,5,1);
              background-origin: border-box;
@@ -55,10 +58,11 @@ window.onload = () => {
       
           </div>
           <br/>
-      <div class="textArea" onmouseover="this.style.overflowY=scroll" onmouseout="this.style.overflowY=hidden" style='width:140px;background-color:white;overflow-y: scroll;text-wrap:pretty;height:100px;color: #1F305E;padding:1px;border-radius:10%;padding:5px;font-weight: 500;font-family: monospace;font-size: 12px;'>Click on any button to proceed.
+      <div class="textArea" onmouseover="this.style.overflowY=scroll" onmouseout="this.style.overflowY=hidden" style='background-color:white;overflow-y: scroll;text-wrap:pretty;height:160px;color: #1F305E;padding:1px;border-radius:10%;padding:5px;font-weight: 500;font-family: monospace;font-size: 16px;'>Click on any button to proceed.
       </div>
       </div>
       </div>
+        </div>
         `;
   body.insertAdjacentHTML("beforeend", buttonHTML);
   // console.log("button inserted");
@@ -68,7 +72,7 @@ window.onload = () => {
   summariseBtn = body.querySelector(".button-summarise");
   translateBtn.addEventListener("click", async function () {
     textArea.innerHTML = `
-    <div style="display:flex;justify-content:center;margin-top: 25px">
+    <div style="display:flex;justify-content:center;margin-top: 50px">
     <div style="width:fit-content">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" width="50" height="50" style="shape-rendering: auto; display: block; background: rgb(255, 255, 255);" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g transform="translate(50 42)">
   <g transform="scale(0.8)">
@@ -109,7 +113,7 @@ window.onload = () => {
   });
   defineBtn.addEventListener("click", async function () {
     textArea.innerHTML = `
-    <div style="display:flex;justify-content:center;margin-top: 25px">
+    <div style="display:flex;justify-content:center;margin-top: 50px">
     <div style="width:fit-content">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" width="50" height="50" style="shape-rendering: auto; display: block; background: rgb(255, 255, 255);" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g transform="translate(50 42)">
   <g transform="scale(0.8)">
@@ -140,6 +144,7 @@ window.onload = () => {
       const data = await res.json();
       if (data.error) {
         textArea.innerHTML = data.error.err_msg;
+        console.log(data);
       } else {
         textArea.innerHTML = data.definition;
       }
@@ -149,7 +154,7 @@ window.onload = () => {
   });
   explainBtn.addEventListener("click", async function () {
     textArea.innerHTML = `
-    <div style="display:flex;justify-content:center;margin-top: 25px">
+    <div style="display:flex;justify-content:center;margin-top: 50px">
     <div style="width:fit-content">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" width="50" height="50" style="shape-rendering: auto; display: block; background: rgb(255, 255, 255);" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g transform="translate(50 42)">
   <g transform="scale(0.8)">
@@ -189,7 +194,7 @@ window.onload = () => {
   });
   summariseBtn.addEventListener("click", async function () {
     textArea.innerHTML = `
-    <div style="display:flex;justify-content:center;margin-top: 25px">
+    <div style="display:flex;justify-content:center;margin-top: 50px">
     <div style="width:fit-content">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" width="50" height="50" style="shape-rendering: auto; display: block; background: rgb(255, 255, 255);" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g transform="translate(50 42)">
   <g transform="scale(0.8)">
@@ -235,23 +240,27 @@ document.addEventListener("mousedown", async function (e) {
   positionY = e.clientY;
   brain = document.getElementById("brain");
   textArea = document.querySelector(".textArea");
-
+  if (!e.target.closest("#brain")) {
+    brain.setAttribute("style", "display : none");
+    textArea.innerHTML = `<p>Click on any button to proceed.</p>`;
+  }
   // console.log(brainButton);
 });
-document.addEventListener("selectionchange", () => {
+document.addEventListener("selectionchange", (e) => {
   text = window.getSelection().toString();
   const exists = Boolean(text);
-
-  if (exists && text.length >= 3) {
+  if (exists && text.length >= 1) {
     brain.setAttribute(
       "style",
-      `position: fixed; right:20px; top:200px;z-index:1500;padding:10px;box-shadow: -2px 2px 4px #E3DAC9;background-color:#F5F5DC;border-radius:10%"`
+      `position: fixed; right:20px; top:200px;z-index:1500;padding:10px;box-shadow: -2px 2px 4px #E3DAC9;background-color:#F5F5DC;border-radius:10%;width:180px`
       // `position: fixed; left:${positionX}px; top:
       // ${positionY - 150}
       // px;z-index:1500"`
     );
-  } else {
-    brain.setAttribute("style", "display : none");
-    textArea.innerHTML = `<p>Click on any button to proceed.</p>`;
+    // } else if (e.target.cl) {
   }
+  // else {
+  // brain.setAttribute("style", "display : none");
+  // textArea.innerHTML = `<p>Click on any button to proceed.</p>`;
+  // }
 });

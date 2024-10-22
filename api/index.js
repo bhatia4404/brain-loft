@@ -83,6 +83,9 @@ app.post("/define", async function (req, res) {
   try {
     const { text } = req.body;
     const definition = await define(text);
+    if (definition.error) {
+      return res.json(definition);
+    }
     return res.json({
       text,
       definition,
@@ -99,6 +102,9 @@ app.post("/explain", async function (req, res) {
   try {
     const { text } = req.body;
     const explanation = await explain(text);
+    if (explanation.error) {
+      return res.json(explanation);
+    }
     return res.json({
       text,
       explanation,
@@ -115,6 +121,9 @@ app.post("/summarise", async function (req, res) {
   try {
     const { text } = req.body;
     const summary = await summarise(text);
+    if (summary.error) {
+      return res.json(summary);
+    }
     return res.json({
       text,
       summary,
