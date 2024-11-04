@@ -63,6 +63,7 @@ app.use(cors());
 app.post("/translate", async function (req, res) {
   try {
     const { text, language } = req.body;
+    console.log(text, language);
     const translation = await translate(text, language);
     if (translation.error) {
       return res.json(translation);
@@ -72,6 +73,7 @@ app.post("/translate", async function (req, res) {
       translation,
     });
   } catch (e) {
+    console.log(e);
     return res.json({
       error: {
         err_msg: "Something went wrong!",
@@ -91,6 +93,7 @@ app.post("/define", async function (req, res) {
       definition,
     });
   } catch (e) {
+    console.log(e);
     return res.json({
       error: {
         err_msg: "Something went wrong!",
@@ -110,6 +113,7 @@ app.post("/explain", async function (req, res) {
       explanation,
     });
   } catch (e) {
+    console.log(e);
     return res.json({
       error: {
         err_msg: "Something went wrong!",
@@ -129,6 +133,7 @@ app.post("/summarise", async function (req, res) {
       summary,
     });
   } catch (e) {
+    console.log(e);
     return res.json({
       error: {
         err_msg: "Something went wrong!",
