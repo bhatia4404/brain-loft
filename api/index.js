@@ -4,7 +4,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const cors = require("cors");
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-async function translate(text) {
+async function translate(text, language) {
   if (text.length < 1) {
     return {
       error: {
@@ -12,7 +12,7 @@ async function translate(text) {
       },
     };
   }
-  const prompt = `translate the word "${text}" to hindi in format "<given word> in <given language> is <translation>"`;
+  const prompt = `translate the word "${text}" to ${language} in format "translation"`;
   const res = await model.generateContent(prompt);
   return res.response.text();
 }
@@ -62,8 +62,8 @@ app.use(bodyParser.json());
 app.use(cors());
 app.post("/translate", async function (req, res) {
   try {
-    const { text } = req.body;
-    const translation = await translate(text);
+    const { text, language } = req.body;
+    const translation = await translate(text, language);
     if (translation.error) {
       return res.json(translation);
     }
