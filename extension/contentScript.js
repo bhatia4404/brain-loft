@@ -290,7 +290,7 @@ document.addEventListener("selectionchange", (e) => {
     translateBtn.addEventListener("click", async function () {
       translateBtnContainer.innerHTML = `<select
         id="languages"
-        style="width: 85px; height: 31.1px; border-radius: 6px;display:grid;grid-template-columns:85px 85px"
+        style="width: 85px; border-radius: 6px;height:28px"
       >
         <option value="None" selected disabled>Language</option>
         <option value="Hindi">Hindi</option>
