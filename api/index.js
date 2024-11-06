@@ -91,7 +91,6 @@ app.post("/define", async function (req, res) {
       definition,
     });
   } catch (e) {
-    console.log(e);
     return res.json({
       error: {
         err_msg: "Something went wrong!",
