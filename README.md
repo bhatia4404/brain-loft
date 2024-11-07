@@ -4,7 +4,7 @@ BrainLoft is an educational Chrome extension that enhances the learning experien
 
 # Demo
 
-[![Watch the video](https://i9.ytimg.com/vi_webp/MrDkjmRxNAM/mq1.webp?sqp=CIDwrrkG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGGUgQShFMA8=&rs=AOn4CLDmQHvjBUtHRmIYBl4DEfaRSOJl5A)](https://youtu.be/MrDkjmRxNAM)
+[![Watch the video](https://i.ytimg.com/vi/MrDkjmRxNAM/hqdefault.jpg?sqp=-oaymwE2CNACELwBSFXyq4qpAygIARUAAIhCGAFwAcABBvABAfgB_gmAAtAFigIMCAAQARhlIEEoRTAP&rs=AOn4CLDVAlQE1tQaX9t9FeLK1B4ahVYJwg)](https://youtu.be/MrDkjmRxNAM)
 
 # Features
 
