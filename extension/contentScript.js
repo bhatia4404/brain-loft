@@ -1,5 +1,4 @@
 async function ClickHandler(text) {
-  // console.log(`Prompt : Explain ${text}`);
   const res = await fetch("http://localhost:3000/explain", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -24,7 +23,6 @@ let positionX,
   summariseBtn,
   isCurrentlementBrain = false;
 window.onload = () => {
-  // console.log("WINDOW LOADED");
   const body = document.querySelector("body");
   const buttonHTML = `
       <div id="brain" style='display:none;padding:10px;box-shadow: -2px 2px 4px #E3DAC9;width:180px;background-color:#F5F5DC;border-radius:10%' >
@@ -68,7 +66,6 @@ window.onload = () => {
         </div>
         `;
   body.insertAdjacentHTML("beforeend", buttonHTML);
-  // console.log("button inserted");
   translateBtn = body.querySelector(".button-translate");
   translateBtnContainer = body.querySelector(".container-button-translate");
   defineBtn = body.querySelector(".button-define");
@@ -198,7 +195,6 @@ window.onload = () => {
 };
 
 document.addEventListener("mousedown", async function (e) {
-  // console.log(e);
   positionX = e.clientX;
   positionY = e.clientY;
   brain = document.getElementById("brain");
@@ -207,7 +203,6 @@ document.addEventListener("mousedown", async function (e) {
     brain.setAttribute("style", "display : none");
     textArea.innerHTML = `<p>Click on any button to proceed.</p>`;
   }
-  // console.log(brainButton);
 });
 document.addEventListener("selectionchange", (e) => {
   text = window.getSelection().toString();
@@ -216,9 +211,6 @@ document.addEventListener("selectionchange", (e) => {
     brain.setAttribute(
       "style",
       `position: fixed; right:20px; top:200px;z-index:1500;padding:10px;box-shadow: -2px 2px 4px #E3DAC9;background-color:#F5F5DC;border-radius:10%;width:200px`
-      // `position: fixed; left:${positionX}px; top:
-      // ${positionY - 150}
-      // px;z-index:1500"`
     );
     translateBtnContainer.innerHTML = `<button class="button-translate" style="display: flex;cursor:pointer;width:100%;
           flex-direction: column;align-items: center;padding: 6px 14px;font-family: -apple-system,BlinkMacSystemFont, 'Roboto', sans-serif;border-radius: 6px;border: none;color: #fff;
@@ -252,7 +244,6 @@ document.addEventListener("selectionchange", (e) => {
       </select>`;
       translateOptions = document.querySelector("#languages");
       translateOptions.addEventListener("change", async function (e) {
-        // console.log(translateOptions.value);
         textArea.innerHTML = `
       <div style="display:flex;justify-content:center;margin-top: 50px">
       <div style="width:fit-content">
